@@ -1,6 +1,7 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
 import '../../../constant/constants.dart';
+import '../../../utils/analytics.dart';
 import '../../../utils/common.dart';
 import '../../../widgets/custom_colors.dart';
 import '../../../widgets/custom_text.dart';
@@ -29,6 +30,11 @@ class _ChatScreen extends State<ChatScreen> {
 
   void onSendPress() {
     String userMessage = userMessageController.text;
+    if (userMessage.isEmpty) {
+      return;
+    }
+    logEvent(EventNames.ctaClicked,
+        {EventParams.ctaName: 'send', EventParams.userMessage: userMessage});
     setState(() {
       chatMessages = [
         ...chatMessages,
@@ -46,8 +52,10 @@ class _ChatScreen extends State<ChatScreen> {
           ChatMessage(message: botMessage, bot: true)
         ];
       });
+      logEvent(EventNames.openAiResponseSuccess, {});
     }).catchError((error) {
       logApiErrorAndShowMessage(context, exception: error);
+      logEvent(EventNames.openAiResponseFailed, {});
     }).then((value) {
       setState(() {
         apiCallInProgress = false;

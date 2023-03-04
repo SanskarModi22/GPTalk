@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../widgets/custom_text.dart';
+import 'analytics.dart';
 import 'api_exception.dart';
 
 void showSnackBar(BuildContext context, {required String message}) {
@@ -59,11 +60,13 @@ Future<String?> getDeviceId() async {
 // It pops all the screens from the stack and then pushes the specified screen onto the stack.
 void resetToScreen(BuildContext context, String route) {
   Navigator.of(context).popAndPushNamed(route);
+  logEvent(EventNames.navigation, {EventParams.routeName: route});
 }
 
 // This function is used to navigate to a specified screen by pushing it onto the navigation stack.
 void navigateToScreen(BuildContext context, String route) {
   Navigator.pushNamed(context, route);
+  logEvent(EventNames.navigation, {EventParams.routeName: route});
 }
 
 // This function returns a boolean value indicating whether the navigation stack can be popped, i.e., whether there is a screen to go back to.
