@@ -20,10 +20,14 @@ class _SplashScreen extends State<SplashScreen> {
   // This method is called when the widget is inserted into the widget tree.
   @override
   @override
-  void initState() async {
+  void initState() {
 // Call the superclass's initState() method.
     super.initState();
+    frameCallback();
 // Call the init() method using the await keyword to wait for the Future to complete.
+  }
+
+  Future<void> frameCallback() async {
     final redirectRoute = await init();
 // Add a post-frame callback to execute the resetToScreen method.
 // This is done so that the method is called after the current frame is built, avoiding

@@ -3,10 +3,14 @@
 // Pricing: https://openai.com/api/pricing/
 import '../../../services/network.dart';
 
-Future<Map<String, dynamic>> getResponseFromOpenAi(String userMessage) {
+Future<Map<String, dynamic>> getResponseFromOpenAi(
+  String userMessage,
+  String context,
+) {
   String endpoint = 'https://api.openai.com/v1/completions';
   String prompt = '''The following is a conversation with an AI assistant. 
 The assistant is helpful, creative, clever, and very friendly.
+$context
 Human: $userMessage
 AI:
 ''';
