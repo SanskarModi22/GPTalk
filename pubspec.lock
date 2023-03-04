@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.1"
+  bubble:
+    dependency: "direct main"
+    description:
+      name: bubble
+      sha256: "65b992b8f8ba2e7e2871190cbdfaa0818b6de2f340bef37cb5ee1b61debe0226"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.2.1"
   characters:
     dependency: transitive
     description:
@@ -65,6 +73,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "7.0.0"
+  dio:
+    dependency: "direct main"
+    description:
+      name: dio
+      sha256: "3709d74615bba5e443eb141f6a7f4bcc4788f8fae6f743edadfb79c2a8e6287e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.1"
   fake_async:
     dependency: transitive
     description:

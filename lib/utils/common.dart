@@ -1,10 +1,12 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../widgets/custom_text.dart';
+import 'api_exception.dart';
 
 void showSnackBar(BuildContext context, {required String message}) {
   final scaffold = ScaffoldMessenger.of(context);
@@ -21,7 +23,7 @@ void showSnackBar(BuildContext context, {required String message}) {
 
 void logApiErrorAndShowMessage(BuildContext context,
     {required dynamic exception}) {
-  /*if (exception is ApiException) {
+  if (exception is ApiException) {
     String message = exception.error.message ?? exception.message;
     showSnackBar(context, message: message);
   } else {
@@ -29,9 +31,9 @@ void logApiErrorAndShowMessage(BuildContext context,
       print(exception);
     }
     showSnackBar(context, message: 'Something went wrong');
-    FirebaseCrashlytics.instance.recordError(
-        exception, StackTrace.fromString('logApiErrorAndShowMessage'));
-  }*/
+    /*FirebaseCrashlytics.instance.recordError(
+        exception, StackTrace.fromString('logApiErrorAndShowMessage'));*/
+  }
 }
 
 void logGenericError(error) {
