@@ -25,30 +25,34 @@ class _ChatScreen extends State<ChatScreen> {
   bool apiCallInProgress = false;
 
   TextEditingController userMessageController = TextEditingController();
+  ScrollController listViewontroller = ScrollController();
 
-  Future<void> onSendPress() async {
+  void onSendPress() {
     String userMessage = userMessageController.text;
     setState(() {
       chatMessages = [
         ...chatMessages,
-        ChatMessage(message: userMessage, bot: false),
-        const ChatMessage(
-            message: '',
-            bot: true), // Add an empty message to show loading indicator
+        ChatMessage(message: userMessage, bot: false)
       ];
       apiCallInProgress = true;
     });
     userMessageController.text = '';
-    try {
-      final response = await getResponseFromOpenAi(userMessage);
-      String botMessage = response['choices'][0]['text'];
+    listViewontroller.jumpTo(listViewontroller.position.maxScrollExtent);
+    getResponseFromOpenAi(userMessage).then((response) {
+      String botMessage = '${response['choices'][0]['text']}';
       setState(() {
-        chatMessages.last = ChatMessage(message: botMessage, bot: true);
+        chatMessages = [
+          ...chatMessages,
+          ChatMessage(message: botMessage, bot: true)
+        ];
+      });
+    }).catchError((error) {
+      logApiErrorAndShowMessage(context, exception: error);
+    }).then((value) {
+      setState(() {
         apiCallInProgress = false;
       });
-    } catch (error) {
-      logApiErrorAndShowMessage(context, exception: error);
-    }
+    });
   }
 
   @override
@@ -72,24 +76,27 @@ class _ChatScreen extends State<ChatScreen> {
                 icon: const Icon(Icons.settings))
           ]),
       body: Stack(children: [
-        ListView.builder(
-            itemCount: chatMessages.length + 1,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            itemBuilder: (context, index) {
-              if (index == chatMessages.length) {
-                // todo show typing indicator when loading
-                return Container();
-              }
-              var chatItem = chatMessages[index];
-              return Bubble(
-                  nip: chatItem.bot ? BubbleNip.leftTop : BubbleNip.rightTop,
-                  margin: const BubbleEdges.only(top: 16, left: 8, right: 16),
-                  color: chatItem.bot ? Colors.white : CustomColors.lightText,
-                  alignment:
-                      chatItem.bot ? Alignment.topLeft : Alignment.topRight,
-                  child: CustomText(chatItem.message));
-            }),
+        Container(
+            margin: const EdgeInsets.only(bottom: 72),
+            child: ListView.builder(
+                controller: listViewontroller,
+                itemCount: chatMessages.length,
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.only(top: 12, bottom: 12),
+                itemBuilder: (context, index) {
+                  var chatItem = chatMessages[index];
+                  return Bubble(
+                      nip:
+                          chatItem.bot ? BubbleNip.leftTop : BubbleNip.rightTop,
+                      margin:
+                          const BubbleEdges.only(top: 16, left: 8, right: 16),
+                      color:
+                          chatItem.bot ? Colors.white : CustomColors.lightText,
+                      alignment:
+                          chatItem.bot ? Alignment.topLeft : Alignment.topRight,
+                      child: CustomText(chatItem.message));
+                })),
         Align(
           alignment: Alignment.bottomLeft,
           child: Container(
@@ -103,7 +110,10 @@ class _ChatScreen extends State<ChatScreen> {
                       child: CustomTextFormField(
                           onChanged: (value) => {},
                           controller: userMessageController,
-                          hintText: 'Ask anything to GPTalk bot'),
+                          minLines: 1,
+                          maxLines: 4,
+                          textInputType: TextInputType.multiline,
+                          hintText: 'Ask anything to GPTalk AI bot'),
                     ),
                   ),
                   Ink(
@@ -111,11 +121,12 @@ class _ChatScreen extends State<ChatScreen> {
                       color: CustomColors.secondary,
                       shape: CircleBorder(),
                     ),
+                    width: 48,
+                    height: 48,
                     child: apiCallInProgress
-                        ? const SizedBox(
-                            child: CircularProgressIndicator(
-                            color: Colors.white,
-                          ))
+                        ? const CircularProgressIndicator(
+                            color: CustomColors.primary,
+                          )
                         : IconButton(
                             tooltip: 'Send',
                             onPressed: onSendPress,
