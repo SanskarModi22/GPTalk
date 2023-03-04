@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "435217039059",
+    "project_id": "gp-talk",
+    "storage_bucket": "gp-talk.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:435217039059:android:8fe4e0cb196b121209de26",
+        "android_client_info": {
+          "package_name": "com.example.gp_talk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "435217039059-4h54pulkv5i2oruouc3l18u7mr2c0cit.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOyZYxxxuToL9JLx1f8BqpBouv_dM4T60"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "435217039059-4h54pulkv5i2oruouc3l18u7mr2c0cit.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
