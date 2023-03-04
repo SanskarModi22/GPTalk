@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -32,6 +33,8 @@ void logApiErrorAndShowMessage(BuildContext context,
       print(exception);
     }
     showSnackBar(context, message: 'Something went wrong');
+    FirebaseCrashlytics.instance.recordError(
+        exception, StackTrace.fromString('logApiErrorAndShowMessage'));
     /*FirebaseCrashlytics.instance.recordError(
         exception, StackTrace.fromString('logApiErrorAndShowMessage'));*/
   }
@@ -39,6 +42,8 @@ void logApiErrorAndShowMessage(BuildContext context,
 
 void logGenericError(error) {
   debugPrint('logGenericError: $error');
+  FirebaseCrashlytics.instance
+      .recordError(error, StackTrace.fromString('logGenericError'));
   /*FirebaseCrashlytics.instance
       .recordError(error, StackTrace.fromString('logGenericError'));*/
 }
