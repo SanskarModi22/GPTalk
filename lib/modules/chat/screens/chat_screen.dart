@@ -1,5 +1,6 @@
 import 'package:bubble/bubble.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../constant/constants.dart';
 import '../../../utils/analytics.dart';
 import '../../../utils/common.dart';
@@ -27,6 +28,12 @@ class _ChatScreen extends State<ChatScreen> {
   int lastMessagesCountForContext = 4;
   TextEditingController userMessageController = TextEditingController();
   ScrollController listViewontroller = ScrollController();
+
+  void onChatMessageLongPress(ChatMessage chatItem) {
+    Clipboard.setData(ClipboardData(text: chatItem.message)).then((value) {
+      showToastMessage('Copied to Clipboard');
+    });
+  }
 
   void onSendPress() {
     String userMessage = userMessageController.text;
@@ -112,16 +119,24 @@ class _ChatScreen extends State<ChatScreen> {
                 padding: const EdgeInsets.only(top: 12, bottom: 12),
                 itemBuilder: (context, index) {
                   var chatItem = chatMessages[index];
-                  return Bubble(
-                      nip:
-                          chatItem.bot ? BubbleNip.leftTop : BubbleNip.rightTop,
-                      margin:
-                          const BubbleEdges.only(top: 16, left: 8, right: 16),
-                      color:
-                          chatItem.bot ? Colors.white : CustomColors.lightText,
-                      alignment:
-                          chatItem.bot ? Alignment.topLeft : Alignment.topRight,
-                      child: CustomText(chatItem.message));
+                  return GestureDetector(
+                    onLongPress: () {
+                      onChatMessageLongPress(chatItem);
+                    },
+                    child: Bubble(
+                        nip: chatItem.bot
+                            ? BubbleNip.leftTop
+                            : BubbleNip.rightTop,
+                        margin:
+                            const BubbleEdges.only(top: 16, left: 8, right: 16),
+                        color: chatItem.bot
+                            ? Colors.white
+                            : CustomColors.lightText,
+                        alignment: chatItem.bot
+                            ? Alignment.topLeft
+                            : Alignment.topRight,
+                        child: CustomText(chatItem.message)),
+                  );
                 })),
         Align(
           alignment: Alignment.bottomLeft,
