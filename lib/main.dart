@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gp_talk/routes/routing.dart';
 import 'package:gp_talk/widgets/custom_colors.dart';
 
-import 'modules/chat/screens/chat_screen.dart';
 import 'modules/splash/screens/splash_screen.dart';
 
 void main() {
@@ -15,18 +15,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch().copyWith(
-        primary: CustomColors.primary,
-        secondary: CustomColors.secondary,
-      )),
-      initialRoute: SplashScreen.routeName,
-      routes: {
-        SplashScreen.routeName: (context) => const SplashScreen(),
-        ChatScreen.routeName: (context) => const ChatScreen(),
-      },
-    );
+        title: 'Flutter Demo',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            colorScheme: ColorScheme.fromSwatch().copyWith(
+          primary: CustomColors.primary,
+          secondary: CustomColors.secondary,
+        )),
+        initialRoute: SplashScreen.routeName,
+        routes: routes);
   }
 }

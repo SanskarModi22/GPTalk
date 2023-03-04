@@ -17,13 +17,20 @@ class _SplashScreen extends State<SplashScreen> {
     return ChatScreen.routeName;
   }
 
+  // This method is called when the widget is inserted into the widget tree.
   @override
-  void initState() {
+  @override
+  void initState() async {
+// Call the superclass's initState() method.
     super.initState();
-    init().then((redirectRoute) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        resetToScreen(context, redirectRoute);
-      });
+// Call the init() method using the await keyword to wait for the Future to complete.
+    final redirectRoute = await init();
+// Add a post-frame callback to execute the resetToScreen method.
+// This is done so that the method is called after the current frame is built, avoiding
+// a conflict with ongoing animations.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+// Call the resetToScreen method with the context and the redirectRoute argument.
+      resetToScreen(context, redirectRoute);
     });
   }
 

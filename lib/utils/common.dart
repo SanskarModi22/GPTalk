@@ -53,27 +53,34 @@ Future<String?> getDeviceId() async {
   }
 }
 
-void resetToScreen(BuildContext context, String routeName) {
-  Navigator.of(context).popAndPushNamed(routeName);
+// This function is used to reset the navigation stack to a specified screen.
+// It pops all the screens from the stack and then pushes the specified screen onto the stack.
+void resetToScreen(BuildContext context, String route) {
+  Navigator.of(context).popAndPushNamed(route);
 }
 
-void navigateToScreen(BuildContext context, String routeName) {
-  Navigator.pushNamed(context, routeName);
+// This function is used to navigate to a specified screen by pushing it onto the navigation stack.
+void navigateToScreen(BuildContext context, String route) {
+  Navigator.pushNamed(context, route);
 }
 
-bool canGoBack(BuildContext context) {
-  return Navigator.canPop(context);
-}
+// This function returns a boolean value indicating whether the navigation stack can be popped, i.e., whether there is a screen to go back to.
+bool canGoBack(BuildContext context) => Navigator.canPop(context);
 
+// This function is used to pop the current screen from the navigation stack and go back to the previous screen.
 void goBack(BuildContext context) {
   Navigator.of(context).pop();
 }
 
 String? encodeQueryParameters(Map<String, String> params) {
   return params.entries
+      //This line returns a list of key-value pairs in the Map.
       .map((MapEntry<String, String> e) =>
+          //This line uses the map function to transform each key-value pair in the list into a new string.
           '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+      //This line encodes the key and value of the current key-value pair and returns a string in the format key=value.
       .join('&');
+  //This line joins all the transformed strings using the & symbol as a separator.
 }
 
 void showToastMessage(String message) {
