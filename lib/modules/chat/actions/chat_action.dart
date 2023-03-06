@@ -25,11 +25,11 @@ AI:
       'prompt': prompt,
       // Controls randomness: Lowering results in less random completions.
       // As the temperature approaches zero, the model will become deterministic and repetitive
-      'temperature': 0.9,
+      'temperature': 0.7,
       // The maximum number of tokens to generate in the completion.
       // The token count of your prompt plus max_tokens cannot exceed the model's context length.
       // Most models have a context length of 2048 tokens (except for the newest models, which support 4096).
-      'max_tokens': 150,
+      'max_tokens': 500,
       // An alternative to sampling with temperature, called nucleus sampling,
       // where the model considers the results of the tokens with top_p probability mass.
       // So 0.1 means only the tokens comprising the top 10% probability mass are considered
@@ -40,7 +40,7 @@ AI:
       'frequency_penalty': 0.0,
       // Number between -2.0 and 2.0. Positive values penalize new tokens based on whether they appear in the text so far,
       // increasing the model's likelihood to talk about new topics.
-      'presence_penalty': 0.6,
+      'presence_penalty': 0,
       // Up to 4 sequences where the API will stop generating further tokens.
       // The returned text will not contain the stop sequence.
       'stop': [' Human:', ' AI:']
